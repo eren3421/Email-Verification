@@ -1,6 +1,7 @@
 import {mailtrapClient,sender} from "./mailtrap.js";
 import {VERIFICATION_EMAIL_TEMPLATE} from "./emailTemplate.js";
-import {RESET_PASSWORD_TEMPLATE} from "./emailTemplate.js";
+import {PASSWORD_RESET_REQUEST_TEMPLATE} from "./emailTemplate.js";
+import {PASSWORD_RESET_SUCCESS_TEMPLATE} from "./emailTemplate.js";
 export const sendVerificationEmail=async(email,verificationToken)=>{
     const recipient=[{email}];
     try{
@@ -14,6 +15,7 @@ export const sendVerificationEmail=async(email,verificationToken)=>{
         console.log("Email başarıyla gönderildi",response);
     }catch(error){
         console.log("Email gönderme hatası",error);
+        throw error;
     }
 }
 export const sendWelcomeEmail=async(email,name)=>{
@@ -31,7 +33,7 @@ export const sendWelcomeEmail=async(email,name)=>{
         });
         console.log("Hoşgeldin Maili Yollandı");
     }catch(error){
-        
+        console.log("Hoş geldin e-postası gönderilemedi",error);
     }
 }
 export const sendResetPasswordEmail=async(email,resetToken,link)=>{
@@ -41,22 +43,22 @@ export const sendResetPasswordEmail=async(email,resetToken,link)=>{
             from:sender,
             to:recepient,
             subject:"Şifreni Yenile",
-            html:RESET_PASSWORD_TEMPLATE.replace("{resetURL}",link),
+            html:PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}",link),
             category:"password_reset"
         })
     }catch(error){
         console.log("Hata var",error);
-        throw new Error("Resetleme Mailinde hata olustu",error);
+        throw new Error(`Resetleme e-postası gönderilemedi: ${error.message}`,{cause:error});
     }
 }
 export const sendResetSuccessEmail=async(email)=>{
     const recepient=[{email}];
     try{
-        const response=mailtrapClient({
+        const response=await mailtrapClient.send({
             from:sender,
             to:recepient,   
             subject:"Şifreni Yenileme Basarılı",
-            html:RESET_PASSWORD_SUCCESS_TEMPLATE,
+            html:PASSWORD_RESET_SUCCESS_TEMPLATE,
             category:"Şifre Yenileme Başarılı"
         });
         console.log("Şifre Yenileme maili başarıyla gönderildi",response);

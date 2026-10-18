@@ -97,6 +97,7 @@
 .form-message { color: #a54354; border: 1px solid #f2dce0; background: #fff7f8; }
 .form-message > span { @apply flex flex-shrink-0 items-center justify-center; width: 17px; height: 17px; color: #fff; background: #c66b7b; border-radius: 50%; font-size: 11px; font-weight: 700; }
 .success-message { color: #34795f; border: 1px solid #d8eee4; background: #f4fbf7; }
+.success-message > span { @apply flex flex-shrink-0 items-center justify-center; width: 17px; height: 17px; color: #fff; background: #55ad86; border-radius: 50%; }
 .step-icon { @apply flex items-center justify-center; width: 46px; height: 46px; margin: auto auto 21px 0; color: #705bc9; border: 1px solid #eeebf8; background: #f7f5fc; border-radius: 13px; }
 .compact-heading { margin-bottom: 26px; }
 .compact-heading h1 { font-size: clamp(27px, 3vw, 33px); }
